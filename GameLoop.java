@@ -1,3 +1,5 @@
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -9,14 +11,28 @@ import javax.swing.JPanel;
 
 public class GameLoop extends JPanel implements KeyListener, ActionListener {
 	private Timer gameTimer;
+	private int rectY = 50;
+	private int rectX = 50;
+	private int width = 50;
+	private int height = 50;
+
 	
 	public GameLoop() {
 		gameTimer = new Timer(16, e -> gameLoop());
 		gameTimer.start();
 		this.setFocusable(true);
+		this.addKeyListener(this);
 	}
 	private void gameLoop() {
 		repaint();
+
+	}
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		g.setColor(Color.RED);
+		g.drawRect(rectX, rectY, width, height);
+		g.fillRect(rectX, rectY, width, height);
 
 	}
 	@Override 
@@ -26,7 +42,15 @@ public class GameLoop extends JPanel implements KeyListener, ActionListener {
 	public void keyReleased(KeyEvent e) {}
 
 	@Override
-	public void keyPressed(KeyEvent e) {}
+	public void keyPressed(KeyEvent e) {
+		int key = e.getKeyCode();
+		switch (key) {
+			case KeyEvent.VK_W -> rectY -= 5;
+			case KeyEvent.VK_A -> rectX -= 5;
+			case KeyEvent.VK_S -> rectY += 5;
+			case KeyEvent.VK_D -> rectX += 5;
+		}
+	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {}
@@ -38,6 +62,7 @@ public class GameLoop extends JPanel implements KeyListener, ActionListener {
 		frame.setSize(800, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
+		gameLoop.requestFocusInWindow();
 
 
 	}
