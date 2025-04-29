@@ -4,8 +4,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.File;
 
 import javax.swing.Timer;
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -15,6 +19,7 @@ public class GameLoop extends JPanel implements KeyListener, ActionListener {
 	private int rectX = 50;
 	private int width = 50;
 	private int height = 50;
+	private BufferedImage playerImage;
 
 	
 	public GameLoop() {
@@ -22,6 +27,12 @@ public class GameLoop extends JPanel implements KeyListener, ActionListener {
 		gameTimer.start();
 		this.setFocusable(true);
 		this.addKeyListener(this);
+
+		try {
+			playerImage = ImageIO.read(new File("raumschiff.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	private void gameLoop() {
 		repaint();
@@ -30,9 +41,13 @@ public class GameLoop extends JPanel implements KeyListener, ActionListener {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.setColor(Color.RED);
-		g.drawRect(rectX, rectY, width, height);
-		g.fillRect(rectX, rectY, width, height);
+		if (playerImage != null) {
+			g.drawImage(playerImage, rectX, rectY, null); 
+		} else {
+			g.setColor(Color.RED);
+			g.drawRect(rectX, rectY, width, height);
+			g.fillRect(rectX, rectY, width, height);
+		}
 
 	}
 	@Override 
