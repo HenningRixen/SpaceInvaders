@@ -1,26 +1,15 @@
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.File;
-
 import javax.swing.Timer;
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class GameLoop extends JPanel implements KeyListener, ActionListener {
 	private Timer gameTimer;
-	private int rectY = 50;
-	private int rectX = 50;
-	private int width = 50;
-	private int height = 50;
-	private BufferedImage playerImage;
-
+	private Player player;
 	
 	public GameLoop() {
 		gameTimer = new Timer(16, e -> gameLoop());
@@ -28,11 +17,8 @@ public class GameLoop extends JPanel implements KeyListener, ActionListener {
 		this.setFocusable(true);
 		this.addKeyListener(this);
 
-		try {
-			playerImage = ImageIO.read(new File("raumschiff.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		player = new Player(50, 50);
+
 	}
 	private void gameLoop() {
 		repaint();
@@ -41,13 +27,7 @@ public class GameLoop extends JPanel implements KeyListener, ActionListener {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		if (playerImage != null) {
-			g.drawImage(playerImage, rectX, rectY, null); 
-		} else {
-			g.setColor(Color.RED);
-			g.drawRect(rectX, rectY, width, height);
-			g.fillRect(rectX, rectY, width, height);
-		}
+		player.draw(g);
 
 	}
 	@Override 
@@ -60,10 +40,10 @@ public class GameLoop extends JPanel implements KeyListener, ActionListener {
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
 		switch (key) {
-			case KeyEvent.VK_W -> rectY -= 5;
-			case KeyEvent.VK_A -> rectX -= 5;
-			case KeyEvent.VK_S -> rectY += 5;
-			case KeyEvent.VK_D -> rectX += 5;
+			case KeyEvent.VK_W -> player.move(0, -5);
+			case KeyEvent.VK_A -> player.move(-5, 0);
+			case KeyEvent.VK_S -> player.move(0, 5);
+			case KeyEvent.VK_D -> player.move(5, 0);
 		}
 	}
 
