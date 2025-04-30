@@ -1,38 +1,34 @@
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.Timer;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class GameLoop extends JPanel implements KeyListener, ActionListener {
+public class GameLoop extends JPanel implements KeyListener {
 	private Timer gameTimer;
 	private Player player;
+	private Enemy enemy;
 	
-	public GameLoop() {
+	public GameLoop(Player player) {
 		gameTimer = new Timer(16, e -> gameLoop());
 		gameTimer.start();
 		this.setFocusable(true);
 		this.addKeyListener(this);
-
-		player = new Player(50, 50);
-
+		this.player = player;
+		// TODO wohin soll der Enemy in den Constructor oder in die main methode
+		enemy = new Enemy(50, 50);
 	}
 	private void gameLoop() {
 		repaint();
-
 	}
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		player.draw(g);
+		enemy.draw(g);
 
 	}
-	@Override 
-	public void actionPerformed(ActionEvent e){}
-
 	@Override
 	public void keyReleased(KeyEvent e) {}
 
@@ -44,6 +40,8 @@ public class GameLoop extends JPanel implements KeyListener, ActionListener {
 			case KeyEvent.VK_A -> player.move(-5, 0);
 			case KeyEvent.VK_S -> player.move(0, 5);
 			case KeyEvent.VK_D -> player.move(5, 0);
+			// TODO weil es fürs testen schneller ist
+			case KeyEvent.VK_ESCAPE -> System.exit(0);
 		}
 	}
 
@@ -52,18 +50,14 @@ public class GameLoop extends JPanel implements KeyListener, ActionListener {
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame("Game Loop");
-		GameLoop gameLoop = new GameLoop();
+		Settings settings = new Settings();
+		Player player = new Player(settings.getPlayerStartX(), settings.getPlayerStartY());
+		GameLoop gameLoop = new GameLoop(player);
 		frame.add(gameLoop);
-		frame.setSize(800, 600);
+		frame.setSize(settings.getWidth(), settings.getHeight());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setResizable(false);
 		frame.setVisible(true);
 		gameLoop.requestFocusInWindow();
-
-
 	}
-
-
-
-
-	
 }

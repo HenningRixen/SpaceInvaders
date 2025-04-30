@@ -7,7 +7,7 @@ import javax.imageio.ImageIO;
  * Player
  */
 
-			// TODO make it so it has the correct rect for the collision
+			// TODO so umsetzen, dass das raumschiff bild auch genau mit der kollision funktioniert
 public class Player {
 	private int x, y;
 	private BufferedImage image;
@@ -24,8 +24,15 @@ public class Player {
 	}
 
 	public void move(int dx, int dy) {
-		x += dx;
-		y += dy;
+		int newY = y + dy;
+		int newX = x + dx;
+		// TODO hier settings rein?
+		if (newY >= 350 && newY <= 470) {
+			y = newY;
+		}
+		if (newX >= 5 && newX <= 693) {
+			x = newX;
+		}
 	}
 
 	public void draw(Graphics g) {
