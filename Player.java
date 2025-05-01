@@ -25,6 +25,9 @@ public class Player {
 		this.x = startX;
 		this.y = startY;
 	}
+	public int getX() { return x; }
+
+	public int getY() { return y; }
 
 	public void move(int dx, int dy, int panelWidth, int panelHeight) {
 		int newY = y + dy;
@@ -32,7 +35,7 @@ public class Player {
 		int topLimitRealitve = (int) Math.round(panelHeight * 0.3);
 		int topLimit = panelHeight - topLimitRealitve;
 		int bottomLimit = panelHeight - image.getHeight();
-		int leftLimit = 5;
+		int leftLimit = (int) Math.round(panelHeight * 0.01);
 		int rightLimit = panelWidth - image.getWidth();
 	
 		if (newY >= topLimit && newY <= bottomLimit) {
@@ -44,8 +47,8 @@ public class Player {
 	}
 	public void shoot() {
 	    if (bullet == null || !bullet.isVisible()) {
-		    //TODO was hier rein damit es vorne rausschießt?
-		bullet = new Bullet(x, y); 
+		    //TODO with multiple player images may be different
+		bullet = new Bullet(x + 7, y); 
 	    }
 	}
 	
@@ -53,6 +56,13 @@ public class Player {
 	    if (bullet != null && bullet.isVisible()) {
 		bullet.update();
 	    }
+	}
+
+	public Bullet getBullet() {
+		if (bullet != null && bullet.isVisible()) {
+			return bullet;
+		}
+		return null;
 	}
 
 	public void draw(Graphics g) {
@@ -67,8 +77,6 @@ public class Player {
 
 	}
 
-	public int getX() { return x; }
-	public int getY() { return y; }
 
 			
 }

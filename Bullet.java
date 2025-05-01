@@ -1,4 +1,5 @@
 import java.awt.image.BufferedImage;
+import java.awt.Rectangle;
 import java.awt.Graphics;
 import javax.imageio.ImageIO;
 import java.io.File;
@@ -39,5 +40,13 @@ public class Bullet {
 	}
 	public boolean isVisible() {
 		return isVisible;
+	}
+
+	public void setVisible(boolean bool){
+		isVisible = bool;
+	}
+
+	public Rectangle getBounds() {
+		return new Rectangle(x, y, image.getWidth(), image.getHeight());
 	}
 }

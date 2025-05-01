@@ -25,15 +25,20 @@ public class GameLoop extends JPanel implements KeyListener {
 	}
 	private void gameLoop() {
 		handleInput();
-		enemy.update(getWidth());
+		if (enemy.isAlive()) {
+			enemy.update(getWidth());
+		}
 		player.updateBullet();
+		checkCollissonBulletEnemy();
 		repaint();
 	}
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		player.draw(g);
-		enemy.draw(g);
+		if (enemy.isAlive()) {
+			enemy.draw(g);
+		}
 
 	}
 	@Override
@@ -63,6 +68,19 @@ public class GameLoop extends JPanel implements KeyListener {
 				case KeyEvent.VK_ESCAPE -> System.exit(0);
 			}
     		}
+	}
+
+	private void checkCollissonBulletEnemy() {
+		Bullet b = player.getBullet();
+		if (b != null){
+			if (enemy.getBounds().intersects(player.getBullet().getBounds())) {
+				enemy.takeDamage(50);
+				System.out.println(enemy.getHealth());
+				System.out.println(enemy.isAlive());
+				player.getBullet().setVisible(false);
+
+			}
+		}
 	}
 
 	public static void main(String[] args) {
