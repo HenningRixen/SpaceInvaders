@@ -23,14 +23,19 @@ public class Player {
 		}
 	}
 
-	public void move(int dx, int dy) {
+	public void move(int dx, int dy, int panelWidth, int panelHeight) {
 		int newY = y + dy;
 		int newX = x + dx;
-		// TODO hier settings rein?
-		if (newY >= 350 && newY <= 470) {
+		int topLimitRealitve = (int) Math.round(panelHeight * 0.3);
+		int topLimit = panelHeight - topLimitRealitve;
+		int bottomLimit = panelHeight - image.getHeight();
+		int leftLimit = 5;
+		int rightLimit = panelWidth - image.getWidth();
+	
+		if (newY >= topLimit && newY <= bottomLimit) {
 			y = newY;
 		}
-		if (newX >= 5 && newX <= 693) {
+		if (newX >= leftLimit && newX <= rightLimit) {
 			x = newX;
 		}
 	}
