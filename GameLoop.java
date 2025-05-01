@@ -1,14 +1,18 @@
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.HashSet;
+
 import javax.swing.Timer;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import java.util.*;
 
 public class GameLoop extends JPanel implements KeyListener {
 	private Timer gameTimer;
 	private Player player;
 	private Enemy enemy;
+	private final Set<Integer> pressedKeys = new HashSet<>();
 	
 	public GameLoop(Player player, Enemy enemy) {
 		setDoubleBuffered(true);
@@ -17,11 +21,12 @@ public class GameLoop extends JPanel implements KeyListener {
 		this.setFocusable(true);
 		this.addKeyListener(this);
 		this.player = player;
-		// TODO wohin soll der Enemy in den Constructor oder in die main methode
 		this.enemy = enemy;
 	}
 	private void gameLoop() {
+		handleInput();
 		enemy.update(getWidth());
+		player.updateBullet();
 		repaint();
 	}
 	@Override
@@ -32,23 +37,33 @@ public class GameLoop extends JPanel implements KeyListener {
 
 	}
 	@Override
-	public void keyReleased(KeyEvent e) {}
+	public void keyReleased(KeyEvent e) {
+		pressedKeys.remove(e.getKeyCode());
+	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		int key = e.getKeyCode();
-		switch (key) {
-			case KeyEvent.VK_W -> player.move(0, -5, getWidth(), getHeight());
-			case KeyEvent.VK_A -> player.move(-5, 0, getWidth(), getHeight());
-			case KeyEvent.VK_S -> player.move(0, 5, getWidth(), getHeight());
-			case KeyEvent.VK_D -> player.move(5, 0, getWidth(), getHeight());
-			// TODO weil es fürs testen schneller ist
-			case KeyEvent.VK_ESCAPE -> System.exit(0);
-		}
+	    pressedKeys.add(e.getKeyCode());
+	    if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+		player.shoot();
+	    }
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {}
+	
+	private void handleInput() {
+		for (int key : pressedKeys) {
+        		switch (key) {
+            			case KeyEvent.VK_W -> player.move(0, -5, getWidth(), getHeight());
+            			case KeyEvent.VK_A -> player.move(-5, 0, getWidth(), getHeight());
+				case KeyEvent.VK_S -> player.move(0, 5, getWidth(), getHeight());
+				case KeyEvent.VK_D -> player.move(5, 0, getWidth(), getHeight());
+				case KeyEvent.VK_SPACE -> player.shoot();			
+				case KeyEvent.VK_ESCAPE -> System.exit(0);
+			}
+    		}
+	}
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame("Game Loop");

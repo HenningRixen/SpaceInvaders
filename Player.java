@@ -10,17 +10,20 @@ import javax.imageio.ImageIO;
 			// TODO so umsetzen, dass das raumschiff bild auch genau mit der kollision funktioniert
 public class Player {
 	private int x, y;
-	private BufferedImage image;
-
-	public Player(int startX, int startY) {
-		this.x = startX;
-		this.y = startY;
+	private static BufferedImage image;
+	private Bullet bullet;
+	static {
 		try {
 			image = ImageIO.read(new File("raumschiff.png"));
 		} catch (IOException e) {
 			System.err.println("png from player wasn't found");
 			e.printStackTrace();
 		}
+	}
+
+	public Player(int startX, int startY) {
+		this.x = startX;
+		this.y = startY;
 	}
 
 	public void move(int dx, int dy, int panelWidth, int panelHeight) {
@@ -39,12 +42,27 @@ public class Player {
 			x = newX;
 		}
 	}
+	public void shoot() {
+	    if (bullet == null || !bullet.isVisible()) {
+		    //TODO was hier rein damit es vorne rausschießt?
+		bullet = new Bullet(x, y); 
+	    }
+	}
+	
+	public void updateBullet() {
+	    if (bullet != null && bullet.isVisible()) {
+		bullet.update();
+	    }
+	}
 
 	public void draw(Graphics g) {
 		if (image != null) {
 			g.drawImage(image, x, y, null);
 		} else {
 			throw new RuntimeException("player image is null");
+		}
+		if (bullet != null && bullet.isVisible()) {
+			bullet.draw(g);
 		}
 
 	}
