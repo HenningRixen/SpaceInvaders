@@ -73,7 +73,7 @@ public class GameLoop extends JPanel implements KeyListener {
 	private void checkCollissonBulletEnemy() {
 		Bullet b = player.getBullet();
 		if (b != null){
-			if (enemy.getBounds().intersects(player.getBullet().getBounds())) {
+			if (enemy.getBounds().intersects(player.getBullet().getBounds()) && enemy.isAlive()) {
 				enemy.takeDamage(50);
 				System.out.println(enemy.getHealth());
 				System.out.println(enemy.isAlive());
