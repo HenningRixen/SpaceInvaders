@@ -1,1 +1,4 @@
 *.class
+.idea/
+out/
+prog2game.iml

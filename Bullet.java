@@ -11,6 +11,7 @@ public class Bullet {
 	private int x,y;
 	private int speed = 10;
 	private boolean isVisible = true;
+	private final Rectangle bounds;
 	static {
 		try {
 			image = ImageIO.read(new File("bullet.png"));
@@ -22,12 +23,14 @@ public class Bullet {
 	public Bullet(int startX, int startY) {
 		this.x = startX;
 		this.y = startY;
+		bounds = new Rectangle(x, y, image.getWidth(), image.getHeight());
 	}
 	public void update() {
 		y -= speed;
 		if (y < 0) {
 			isVisible = false;
 		}
+		updateBounds();
 	}
 	
 	public void draw(Graphics g) {
@@ -46,7 +49,17 @@ public class Bullet {
 		isVisible = bool;
 	}
 
+	public void reset(int startX, int startY) {
+		this.x = startX;
+		this.y = startY;
+		this.isVisible = true;
+		updateBounds();
+	}
+	private void updateBounds() {
+        	bounds.setBounds(x, y, image.getWidth(), image.getHeight());
+    	}
+
 	public Rectangle getBounds() {
-		return new Rectangle(x, y, image.getWidth(), image.getHeight());
+		return bounds;
 	}
 }

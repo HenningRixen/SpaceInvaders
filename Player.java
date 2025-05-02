@@ -46,9 +46,10 @@ public class Player {
 		}
 	}
 	public void shoot() {
-	    if (bullet == null || !bullet.isVisible()) {
-		    //TODO with multiple player images may be different
+	    if (bullet == null) {
 		bullet = new Bullet(x + 7, y); 
+	    } else if (!bullet.isVisible()) {
+		bullet.reset(x + 7, y);
 	    }
 	}
 	

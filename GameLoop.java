@@ -2,26 +2,29 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.HashSet;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
-import javax.swing.Timer;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.util.*;
 
 public class GameLoop extends JPanel implements KeyListener {
-	private Timer gameTimer;
+	private ScheduledExecutorService executor;
 	private Player player;
 	private Enemy enemy;
 	private final Set<Integer> pressedKeys = new HashSet<>();
 	
 	public GameLoop(Player player, Enemy enemy) {
 		setDoubleBuffered(true);
-		gameTimer = new Timer(16, e -> gameLoop());
-		gameTimer.start();
 		this.setFocusable(true);
 		this.addKeyListener(this);
 		this.player = player;
 		this.enemy = enemy;
+
+		executor = Executors.newSingleThreadScheduledExecutor();
+		executor.scheduleAtFixedRate(this::gameLoop, 0, 16, TimeUnit.MILLISECONDS);
 	}
 	private void gameLoop() {
 		handleInput();
@@ -48,11 +51,28 @@ public class GameLoop extends JPanel implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-	    pressedKeys.add(e.getKeyCode());
-	    if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-		player.shoot();
-	    }
+		int code = e.getKeyCode();
+	    	pressedKeys.add(code);
+	    	if (code == KeyEvent.VK_SPACE) {
+			player.shoot();
+	    	}
+	    	if (code == KeyEvent.VK_ESCAPE) {
+			stopGame();
+			System.exit(0);
+
+		}
 	}
+
+	public void stopGame() {
+        	if (executor != null && !executor.isShutdown()) {
+            	executor.shutdown();
+            	try {
+                	executor.awaitTermination(1, TimeUnit.SECONDS);
+            	} catch (InterruptedException e) {
+                	e.printStackTrace();
+            		}
+        	}	
+    	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {}
@@ -64,7 +84,6 @@ public class GameLoop extends JPanel implements KeyListener {
             			case KeyEvent.VK_A -> player.move(-5, 0, getWidth(), getHeight());
 				case KeyEvent.VK_S -> player.move(0, 5, getWidth(), getHeight());
 				case KeyEvent.VK_D -> player.move(5, 0, getWidth(), getHeight());
-				case KeyEvent.VK_SPACE -> player.shoot();			
 				case KeyEvent.VK_ESCAPE -> System.exit(0);
 			}
     		}
