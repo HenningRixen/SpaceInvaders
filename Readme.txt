@@ -1,11 +1,10 @@
 Todo:
 
-Die Performance vom den Enemys ist nicht gut wenn man sich nicht bewegt !!!
-Bisher keine Lösung gefunden
 
 
 
 
+performace optimiert								check Läuft mit Community IntelliJ butterweich
 collission möglich machen 							check schüsse mit enemy
 wenn die enmemys eine bestimmte stelle erreichen leben spieler abziehen 
 hintergrund muss rein
