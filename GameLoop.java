@@ -53,7 +53,7 @@ public class GameLoop extends JPanel implements KeyListener {
 	public void keyPressed(KeyEvent e) {
 		int code = e.getKeyCode();
 	    	pressedKeys.add(code);
-	    	if (code == KeyEvent.VK_SPACE) {
+	    	if (code == KeyEvent.VK_SPACE | code == KeyEvent.VK_ENTER) {
 			player.shoot();
 	    	}
 	    	if (code == KeyEvent.VK_ESCAPE) {
@@ -80,12 +80,21 @@ public class GameLoop extends JPanel implements KeyListener {
 	private void handleInput() {
 		for (int key : pressedKeys) {
         		switch (key) {
-            			case KeyEvent.VK_W -> player.move(0, -5, getWidth(), getHeight());
-            			case KeyEvent.VK_A -> player.move(-5, 0, getWidth(), getHeight());
-				case KeyEvent.VK_S -> player.move(0, 5, getWidth(), getHeight());
-				case KeyEvent.VK_D -> player.move(5, 0, getWidth(), getHeight());
-				case KeyEvent.VK_ESCAPE -> System.exit(0);
-			}
+					case KeyEvent.VK_W: case KeyEvent.VK_UP:
+						player.move(0, -5, getWidth(), getHeight());
+						break;
+					case KeyEvent.VK_A: case KeyEvent.VK_LEFT:
+						player.move(-5, 0, getWidth(), getHeight());
+						break;
+					case KeyEvent.VK_S: case KeyEvent.VK_DOWN:
+						player.move(0, 5, getWidth(), getHeight());
+						break;
+					case KeyEvent.VK_D: case KeyEvent.VK_RIGHT:
+						player.move(5, 0, getWidth(), getHeight());
+						break;
+					case KeyEvent.VK_ESCAPE:
+						System.exit(0);
+				}
     		}
 	}
 
