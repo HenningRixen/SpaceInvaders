@@ -1,40 +1,60 @@
-Todo:
+Space Invaders Roadmap
+
+Nächste schritte / gerade in bearbeitung:
+spieler verliert leben -idee spieler hat drei leben und wenn gegner stelle erreicht verliert er 1
+canvas zu machen henning
+factory und objekte für architektur bereit machen henning
+wellen jonathan
+
+Im Auge behalten:
+Performance
+
+Kernziele MVP:
+
+architektonische aufteilung der ebenen
+spieler
+kleine gegnervielfalt (3-4 eventuell boss)
+der spieler und die gegner sollen leben haben
+spieler verliert leben wenn die gegner eine bestimmte stelle erreichen
+collission gegner schüsse
+hintergrund im Weltall
+mehrere schnellere Schüsse vom Spieler
+boss battle
+score einfügen
+start menü / gameover screen / vicory screen
+wellen die man besiegen kann um zu gewinnen (2-3 + boss)
+aktuelle welle anzeigen
+boss mit angriffsmuster (teppichmuster)
+sounds: hintergrund, treffer, schuss
 
 
-
-
-
-performace optimiert								check Läuft mit Community IntelliJ butterweich
-collission möglich machen 							check schüsse mit enemy
+Ausbaustufen:
+- optionen menü
 - potentielle Ausbaustufe: Collision einseitig machen oder verschiedene Collisionsflags mit verschiedenen Auswirkungen auf beiden Seiten der Collision
 - wäre es möglich, die Collision zu einer Interaktion von zwei Klassen (Enemy, Player und Bullet) zu machen, der eine Flag für den konkreten Effekt der Collision mitbekommt?
-wenn die enmemys eine bestimmte stelle erreichen leben spieler abziehen 
-hintergrund muss rein
-enemy schreiben 								check
-schüsse implementieren								check
-leben von player und enemy							leben von enemy check
-mehr enemy typen
-- erstmal simpel halten, können wir später immer noch erweitern
-boss battle
-unterschiedliche schwierigkeitsgrade
-- würde ich erstmal hinten anstellen
-shop mit upgrades für player
-- würde ich erstmal hinten anstellen
-score einfügen
-start screen
-game over screen
-highscore
-multiplayer
-- sollten wir nochmal drüber reden
-wellen einfügen 
-unterschiedliche enemys mit schüssen?
-- würde ich erstmal simpel halten und später ggf. erweitern
-Sounds für Schuss, Treffer, getroffen werden/Lebensverlust, Wellenstart, Bosskampf
-besondere Screens/Schrift-Overlays beim Start einer neuen Welle/Bosskampf
+- mehr gegner!
+- score berechnen mithilfe von z.B. zeitlichen faktoren
+- gegner oder boss angriffsmuster
+- sounds: wellestart, bosskampf, lebesverlust
+- besondere Screens/Schrift-Overlays beim Start einer neuen Welle/Bosskampf
 - ggf. auch für den Start, hier könnten wir einen kleinen Countdown einfügen bis zur ersten Welle (vielleicht auch vor dem Bosskampf - oder einfach den Overlay vor dem Bosskampf etwas länger und imposanter machen als bei normalen Wellen)
-potentiell Wellencounter
-(simple) Musik
-Steuerungsschema erweitern: Pfeiltasten und Enter (ließe sich für lokales Coop verwenden oder einfach nur als alternatives Steuerungschema)
-                                    Check; derzeitiges Problem: Bewegungen in die gleiche Richting (z.B. W und Up gleichzeitig) stacken
-eventuell könnten wir das Schießen des Spielers über verschiedene Klassen regeln (eigene Klasse für die einzelnen Waffen?), die alle die gleiche Methode shoot() verschiedenen implementieren, um verschiedenes Verhalten zu ermöglichen
-- ich würde auch den Schaden der Bullet von der Bullet oder der Waffe abhängig machen (potentiell noch modifiziert durch die Spielerklasse oder Power-ups)
+- powerups: bsp schießen des spielers über verschiedene Klassen um verschiedenes verhalten zu ermöglichen
+- powerups: schaden der bullet von der bullet oder der waffe abhängig machen
+- collission möglich machen für spieler gegner und gegner gegner
+
+Wackelkandidat:
+- shop mit upgrades für player
+- unterschiedliche schwierigkeitsgrade
+
+
+Konkrete Fragen an Betreuer:
+Wie sollen wir den multiplayer umsetzen was ist realistisch (highscore/ 2 spieler)?
+Wie sieht es aus mit immersion wie doll soll das gemacht werden?
+Wie gut ist der rahmen ist es umsetzbar?
+
+Überarbeiten:
+Steuerungsschema erweitern: Pfeiltasten und Enter (ließe sich für lokales Coop verwenden oder einfach nur als alternatives Steuerungschema) derzeitiges Problem: Bewegungen in die gleiche Richting (z.B. W und Up gleichzeitig) stacken
+
+Besprechungen:
+Optionen: festes Jpanel aber skalierbares Jframe
+
